@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductDto.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seller-service</a> &gt; <a href="index.source.html" class="el_package">com.iihtproject.sellerservice.dto</a> &gt; <span class="el_source">ProductDto.java</span></div><h1>ProductDto.java</h1><pre class="source lang-java linenums">package com.iihtproject.sellerservice.dto;
+
+import com.iihtproject.sellerservice.enums.ProductCategory;
+import com.iihtproject.sellerservice.validation.EnumValueValidator;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+
+import javax.validation.constraints.*;
+import java.util.Date;
+
+<span class="pc bnc" id="L11" title="All 112 branches missed.">@Data</span>
+//@AllArgsConstructor(staticName = &quot;build&quot;)
+//@NoArgsConstructor
+public class ProductDto {
+
+    // Product Details
+    @NotNull
+    @Size(min = 5, max = 30)
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L20">    private String productName;</span>
+
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L23">    private String shortDescription;</span>
+
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L26">    private String detailedDescription;</span>
+    
+    @EnumValueValidator(enumClass = ProductCategory.class, message = &quot;Must be a Valid Product Category&quot;)
+<span class="fc" id="L29">    private String category;</span>
+
+    @Min(value=1, message=&quot;numericField: positive number, min 1 is required&quot;)
+    @Digits(message = &quot;Starting Price must be number&quot;, integer = 7, fraction = 0)
+    @Schema(type = &quot;double&quot;, example = &quot;10000&quot;)
+<span class="fc" id="L34">    private double startingPrice;</span>
+
+    @Future
+    @Schema(type = &quot;string&quot;, example = &quot;2022-08-22&quot;)
+<span class="fc" id="L38">    private Date bidEndDate;</span>
+
+    // Seller Details
+    @NotNull
+    @Size(min = 5, max = 30)
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L44">    private String sellerFirstName;</span>
+
+    @NotNull
+    @Size(min = 5, max = 30)
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L49">    private String sellerLastName;</span>
+
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L52">    private String sellerAddress;</span>
+
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L55">    private String sellerCity;</span>
+
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L58">    private String sellerState;</span>
+
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L61">    private String sellerPinCode;</span>
+
+    @NotNull
+    @Size(min = 10, max = 10)
+    @Schema(type = &quot;string&quot;)
+<span class="fc" id="L66">    private String sellerPhone;</span>
+
+    @NotNull
+    @Email
+    @Schema( type = &quot;string&quot;)
+<span class="fc" id="L71">    private String sellerEmail;</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

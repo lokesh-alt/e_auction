@@ -1,0 +1,13 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+seller-service,com.iihtproject.sellerservice.controller,SellerController,6,48,0,0,1,8,1,5,1,5
+seller-service,com.iihtproject.sellerservice.service.impl,SellerServiceImpl,20,138,4,4,4,36,4,5,0,5
+seller-service,com.iihtproject.sellerservice.response,ProductResponse,527,108,126,0,0,16,67,31,4,31
+seller-service,com.iihtproject.sellerservice.exception.customException,CustomException,4,0,0,0,2,0,1,0,1,0
+seller-service,com.iihtproject.sellerservice.enums,ProductCategory,0,21,0,0,0,2,0,1,0,1
+seller-service,com.iihtproject.sellerservice,SellerServiceApplication,5,3,0,0,2,1,1,1,1,1
+seller-service,com.iihtproject.sellerservice.dto,ProductDto,486,101,112,0,0,15,60,29,4,29
+seller-service,com.iihtproject.sellerservice.model,ProductEntity,4,104,0,0,0,17,1,30,1,30
+seller-service,com.iihtproject.sellerservice.exception,GlobalExceptionHandler,18,3,0,0,2,1,1,1,1,1
+seller-service,com.iihtproject.sellerservice.exception,ErrorDetails,167,0,30,0,6,0,27,0,12,0
+seller-service,com.iihtproject.sellerservice.exception,ValidationHandler,25,3,0,0,4,1,2,1,2,1
+seller-service,com.iihtproject.sellerservice.validation.impl,EnumValueValidatorImpl,2,25,1,1,1,7,1,3,0,3

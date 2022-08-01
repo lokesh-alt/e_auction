@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SellerController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seller-service</a> &gt; <a href="index.source.html" class="el_package">com.iihtproject.sellerservice.controller</a> &gt; <span class="el_source">SellerController.java</span></div><h1>SellerController.java</h1><pre class="source lang-java linenums">package com.iihtproject.sellerservice.controller;
+
+import com.iihtproject.sellerservice.dto.ProductDto;
+import com.iihtproject.sellerservice.response.ProductResponse;
+import com.iihtproject.sellerservice.service.SellerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+
+import javax.validation.Valid;
+
+@Controller
+@RestController
+@RequestMapping(&quot;/e-auction/api/v1/seller&quot;)
+<span class="fc" id="L20">public class SellerController {</span>
+    @Autowired
+    private SellerService sellerService;
+
+    @GetMapping(&quot;/&quot;)
+    public ResponseEntity&lt;String&gt; helloWorld(){
+<span class="nc" id="L26">        return new ResponseEntity&lt;&gt;(&quot;Hello World&quot;,HttpStatus.OK);</span>
+    }
+
+    @PostMapping(&quot;/add-product&quot;)
+    public ResponseEntity&lt;ProductResponse&gt;addProduct(@Valid @RequestBody ProductDto productDto){
+<span class="fc" id="L31">        return new ResponseEntity&lt;&gt;(sellerService.addProduct(productDto), HttpStatus.CREATED);</span>
+    }
+
+    @GetMapping(&quot;show-bids/{productId}&quot;)
+    public ResponseEntity&lt;ProductResponse&gt; showBidsForProduct(@Valid @PathVariable(&quot;productId&quot;) String id){
+    	
+<span class="fc" id="L37">    	ProductResponse response = sellerService.showBids(id);</span>
+<span class="fc" id="L38">    	return new ResponseEntity&lt;&gt;(response, HttpStatus.OK);</span>
+    	
+    }
+    
+    @GetMapping(&quot;find-product/{productId}/{bidEndDate}&quot;)
+    public ResponseEntity&lt;Boolean&gt; findProductByIdAndBidEndDate(@Valid @PathVariable(&quot;productId&quot;)String id, @PathVariable(&quot;bidEndDate&quot;) @DateTimeFormat(pattern = &quot;yyyy-MM-dd&quot;) Date date){
+<span class="fc" id="L44">    	boolean response = sellerService.findProductByIdAndBidEndDate(id,date);</span>
+<span class="fc" id="L45">    	return new ResponseEntity&lt;&gt;(response, HttpStatus.OK);</span>
+
+    }
+    
+    @DeleteMapping(&quot;/delete/{productId}&quot;)
+    public ResponseEntity&lt;Boolean&gt; deleteProduct(@PathVariable(&quot;productId&quot;) String productId) {
+<span class="fc" id="L51">        boolean deleted = sellerService.deleteProduct(productId);</span>
+<span class="fc" id="L52">        return new ResponseEntity&lt;&gt;(deleted, HttpStatus.OK);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

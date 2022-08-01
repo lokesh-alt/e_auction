@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SellerServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seller-service</a> &gt; <a href="index.source.html" class="el_package">com.iihtproject.sellerservice.service.impl</a> &gt; <span class="el_source">SellerServiceImpl.java</span></div><h1>SellerServiceImpl.java</h1><pre class="source lang-java linenums">package com.iihtproject.sellerservice.service.impl;
+
+import com.iihtproject.sellerservice.dto.ProductDto;
+import com.iihtproject.sellerservice.exception.customException.CustomException;
+import com.iihtproject.sellerservice.model.ProductEntity;
+import com.iihtproject.sellerservice.repository.SellerRepository;
+import com.iihtproject.sellerservice.response.ProductResponse;
+import com.iihtproject.sellerservice.service.SellerService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+@Service
+<span class="fc" id="L19">public class SellerServiceImpl implements SellerService {</span>
+
+    @Autowired
+    private SellerRepository sellerRepository;
+
+    public ProductResponse addProduct(ProductDto productDto){
+<span class="fc" id="L25">        ProductEntity productEntity = new ProductEntity();</span>
+<span class="fc" id="L26">        BeanUtils.copyProperties(productDto,productEntity);</span>
+<span class="fc" id="L27">        ProductResponse productResponse = new ProductResponse();</span>
+<span class="fc" id="L28">        BeanUtils.copyProperties(sellerRepository.save(productEntity), productResponse);</span>
+<span class="fc" id="L29">        return productResponse;</span>
+    }
+
+    @Override
+    public boolean deleteProduct(String productId) {
+<span class="fc" id="L34">        Optional&lt;ProductEntity&gt; productEntity = sellerRepository.findById(productId);</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (productEntity.isEmpty()) {</span>
+<span class="nc" id="L36">            throw new CustomException(&quot;Given product id is unavailable&quot;);</span>
+        }
+
+<span class="fc" id="L39">        ProductEntity product = productEntity.get();</span>
+
+<span class="fc" id="L41">        Date currentDate = new Date();</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if (currentDate.compareTo(product.getBidEndDate()) &gt; 0) {</span>
+<span class="nc" id="L43">            throw new CustomException(&quot;Product cannot be deleted after bid end date&quot;);</span>
+        }
+
+//        int numOfBids = bidRepository.countNumberOfBidsForProduct(productId);
+//        if (numOfBids &gt; 0) {
+//            throw new InvalidInputException(&quot;At least one Bid has been placed on the product&quot;);
+//        }
+<span class="fc" id="L50">        sellerRepository.deleteById(productId);</span>
+        
+<span class="fc" id="L52">        return true;</span>
+    }
+
+	@Override
+	public ProductResponse showBids(@Valid String id) {
+<span class="fc" id="L57">        Optional&lt;ProductEntity&gt; productEntity = sellerRepository.findById(id);</span>
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (productEntity.isEmpty()) {</span>
+<span class="nc" id="L59">            throw new CustomException(&quot;Given product id is unavailable&quot;);</span>
+        }
+        
+<span class="fc" id="L62">        ProductResponse response = new ProductResponse();</span>
+<span class="fc" id="L63">        ProductEntity entity = productEntity.get();</span>
+<span class="fc" id="L64">        response.setBidEndDate(entity.getBidEndDate());</span>
+<span class="fc" id="L65">        response.setCategory(entity.getCategory());</span>
+<span class="fc" id="L66">        response.setDetailedDescription(entity.getDetailedDescription());</span>
+<span class="fc" id="L67">        response.setId(entity.getId());</span>
+<span class="fc" id="L68">        response.setProductName(entity.getProductName());</span>
+<span class="fc" id="L69">        response.setSellerAddress(entity.getSellerAddress());</span>
+<span class="fc" id="L70">        response.setSellerCity(entity.getSellerCity());</span>
+<span class="fc" id="L71">        response.setSellerEmail(entity.getSellerEmail());</span>
+<span class="fc" id="L72">        response.setSellerFirstName(entity.getSellerFirstName());</span>
+<span class="fc" id="L73">        response.setSellerLastName(entity.getSellerLastName());</span>
+<span class="fc" id="L74">        response.setSellerPhone(entity.getSellerPhone());</span>
+<span class="fc" id="L75">        response.setSellerPinCode(entity.getSellerPinCode());</span>
+<span class="fc" id="L76">        response.setSellerState(entity.getSellerState());</span>
+<span class="fc" id="L77">        response.setShortDescription(entity.getShortDescription());</span>
+<span class="fc" id="L78">        response.setStartingPrice(entity.getStartingPrice());</span>
+        
+        
+        //Add List of Bids 
+        
+<span class="fc" id="L83">        return  response;</span>
+	}
+
+	@Override
+	public boolean findProductByIdAndBidEndDate(@Valid String id, Date date) {
+<span class="fc" id="L88">		Optional&lt;ProductEntity&gt; productEntity = sellerRepository.findByIdAndBidEndDateLessThan(id,date);</span>
+		
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">		 if (productEntity.isEmpty()) {</span>
+<span class="nc" id="L91">	            throw new CustomException(&quot;Given product id is unavailable&quot;);</span>
+	        }
+	        
+<span class="fc" id="L94">		return true;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
